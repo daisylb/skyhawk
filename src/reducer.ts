@@ -1,27 +1,12 @@
 import * as actions from "./actions"
 import { OrderedMap, fromJS } from "immutable"
 
-class LoaderState extends OrderedMap {
-  inFlight(prefix) {
-    if (prefix) {
-      return this.filter(x => x.inFlight && x.key.startsWith(prefix))
-    }
-    return this.filter(x => x.inFlight)
-  }
-  error(prefix) {
-    if (prefix) {
-      return this.filter(x => x.error && x.key.startsWith(prefix))
-    }
-    return this.filter(x => x.error)
-  }
-}
-
 /**
  * Reducer handling actions dispatched by Loader.
  *
  * This can be combined into your state with combineReducers.
  */
-export default function reducer(state = new OrderedMap(), action) {
+export default function reducer(state = OrderedMap(), action) {
   switch (action.type) {
     case actions.IN_FLIGHT:
       return state.set(
