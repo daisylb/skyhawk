@@ -1,5 +1,13 @@
 import * as actions from "./actions"
 
+export type Thunk = (dispatch: Dispatch, getState) => void
+export type Dispatch = (action: actions.Action | Thunk) => void
+export type ExtendedThunk = (dispatch, getState, ok, cancel) => void
+
+function isPromise(thing: any): thing is Promise<any> {
+  return (typeof <Promise<any>>thing.then === 'function')
+}
+
 /**
  * Redux-thunk helper for network tasks.
  *
@@ -12,12 +20,12 @@ import * as actions from "./actions"
  * fails. In conjunction with the reducer, this lets you show in-flight and
  * error UIs in a generic way.
  *
- * @param {*string} key Key to identify the action being performed.
- * @param {*function} innerFunc Function to execute to actually perform the
+ * @param key Key to identify the action being performed.
+ * @param innerFunc Function to execute to actually perform the
  *  action.
  */
-export default function load(key, innerFunc) {
-  return function(dispatch, getState) {
+export default function load(key: string, innerFunc: ExtendedThunk) {
+  return function(dispatch: Dispatch, getState) {
     const cancel = () => ({
       type: actions.CANCEL,
       key,
@@ -41,7 +49,7 @@ export default function load(key, innerFunc) {
       return (dispatch, getState) => {
         dispatch({ type: actions.IN_FLIGHT, key })
         const irv = innerFunc(dispatch, getState, ok, fail)
-        if (typeof irv.then === "function") {
+        if (isPromise(irv)) {
           irv.then(ok, fail)
         }
       }
