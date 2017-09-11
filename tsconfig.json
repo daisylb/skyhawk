@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "strictNullChecks": true,
+        "declaration": true,
+        //"target": "es5",
+        //"module": "es6",
+        "outDir": "build"
+    },
+    "include": [
+        "src/**/*"
+    ]
+}

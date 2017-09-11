@@ -1,0 +1,3 @@
+# Built artefacts have to be in the root directory for imports to behave nicely
+*.d.ts
+*.js
