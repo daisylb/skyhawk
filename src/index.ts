@@ -24,7 +24,7 @@ function isPromise(thing: any): thing is Promise<any> {
  * @param innerFunc Function to execute to actually perform the
  *  action.
  */
-export default function load(key: string, innerFunc: ExtendedThunk) {
+export default function load(key: string, innerFunc: ExtendedThunk): Thunk {
   return function(dispatch: Dispatch, getState) {
     const cancel = () => ({
       type: actions.CANCEL,
@@ -46,7 +46,7 @@ export default function load(key: string, innerFunc: ExtendedThunk) {
       })
     }
     const retry = () => {
-      return (dispatch, getState) => {
+      return (dispatch: Dispatch, getState) => {
         dispatch({ type: actions.IN_FLIGHT, key })
         const irv = innerFunc(dispatch, getState, ok, fail)
         if (isPromise(irv)) {
