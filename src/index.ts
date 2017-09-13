@@ -24,22 +24,31 @@ function isPromise(thing: any): thing is Promise<any> {
  * @param innerFunc Function to execute to actually perform the
  *  action.
  */
-export default function load(key: string, innerFunc: ExtendedThunk): Thunk {
+export default function load(
+  action: string,
+  keys: any[],
+  innerFunc: ExtendedThunk,
+): Thunk {
   return function(dispatch: Dispatch, getState) {
+    const id =
+      "skyhawk.action." +
+      Math.random()
+        .toString(36)
+        .slice(2)
     const cancel = () => ({
       type: actions.CANCEL,
-      key,
+      id,
     })
     const ok = () =>
       dispatch({
         type: actions.COMPLETE,
-        key,
+        id,
       })
     const fail = error => {
       console.warn("loader recieved an error", error)
       dispatch({
         type: actions.ERROR,
-        key,
+        id,
         error,
         retry,
         cancel,
@@ -47,7 +56,7 @@ export default function load(key: string, innerFunc: ExtendedThunk): Thunk {
     }
     const retry = () => {
       return (dispatch: Dispatch, getState) => {
-        dispatch({ type: actions.IN_FLIGHT, key })
+        dispatch({ type: actions.IN_FLIGHT, id, action, keys })
         const irv = innerFunc(dispatch, getState, ok, fail)
         if (isPromise(irv)) {
           irv.then(ok, fail)

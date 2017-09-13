@@ -5,21 +5,23 @@ export const CANCEL = "cmv.loader.CANCEL"
 
 export type InFlight = {
   type: typeof IN_FLIGHT
-  key: string
+  id: string
+  action: string
+  keys: any[]
 }
 export type Complete = {
   type: typeof COMPLETE
-  key: string
+  id: string
 }
 export type ErrorAction = {
   type: typeof ERROR
-  key: string
+  id: string
   error: any
   retry: () => void
   cancel: () => void
 }
 export type Cancel = {
   type: typeof CANCEL
-  key: string
+  id: string
 }
 export type Action = InFlight | Complete | ErrorAction | Cancel
