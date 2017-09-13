@@ -18,7 +18,10 @@ export type SkyhawkState = OrderedMap<
  *
  * This can be combined into your state with combineReducers.
  */
-export default function reducer(state: SkyhawkState = OrderedMap(), action: actions.Action) {
+export default function reducer(
+  state: SkyhawkState = OrderedMap(),
+  action: actions.Action,
+) {
   switch (action.type) {
     case actions.IN_FLIGHT:
       state.get("a").get("foo")

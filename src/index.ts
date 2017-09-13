@@ -5,7 +5,7 @@ export type Dispatch = (action: actions.Action | Thunk) => void
 export type ExtendedThunk = (dispatch, getState, ok, cancel) => void
 
 function isPromise(thing: any): thing is Promise<any> {
-  return (typeof <Promise<any>>thing.then === 'function')
+  return typeof (<Promise<any>>thing.then) === "function"
 }
 
 /**

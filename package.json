@@ -1,7 +1,8 @@
 {
   "name": "skyhawk",
   "version": "0.1.0",
-  "description": "A library for managing network request in-flight state and errors with redux-thunk",
+  "description":
+    "A library for managing network request in-flight state and errors with redux-thunk",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
